@@ -1,0 +1,10 @@
+import mysql.connector as ms
+mydb=ms.connect(host="localhost",user="root",password="tiger")
+mycur=mydb.cursor()
+mycur.execute("create database custody")
+mycur.execute("use custody_test2")
+mycur.execute("create table Pattest(Identity varchar(255) primary key,Name varchar(255),DOB varchar(255),Address varchar(255),BloodGroup varchar(255),EmailId varchar(255),Covid19 varchar(255),Ebola varchar(255),H1N1 varchar(255),SarsCOV varchar(255),MersCOV varchar(255),Influenza varchar(255))")
+mydb.commit()
+mycur.execute("create table medicine(OrderID varchar(255) primary key, Aug varchar(255), Dolo varchar(255), disp varchar(255), ultra varchar(255),mel varchar(255),rif varchar(255),amr varchar(255),Multi varchar(255),nebi varchar(255),name varchar(255),email varchar(255))")
+mydb.commit()
+print("Done.. now you can continue")
