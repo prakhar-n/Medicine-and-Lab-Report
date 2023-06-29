@@ -1,0 +1,58 @@
+from tkinter import *
+from tkinter import messagebox
+from PIL import ImageTk,Image
+import os
+import mysql.connector as ms
+
+mydb=ms.connect(host="localhost",user="root",password="tiger")
+mycur=mydb.cursor()
+mycur.execute("use custody")
+
+class Frame1(Frame):
+    def __init__(self):
+        main = Tk()
+        main.state('zoomed')
+        main.title("Welcome to Medical Reports")
+
+        background_image=ImageTk.PhotoImage(Image.open("C:\\Users\\nigam\\Desktop\\NTCC Project\\hEX2.jpg"))
+        background_label = Label(main, image=background_image)
+        background_label.place(x=0, y=0)
+
+        frame1 = LabelFrame(main, bd=10,width=0,bg="light blue", padx=10,pady=5)
+        frame1.pack(expand=True)
+
+        label_0 = Label(frame1,bg="light blue",text="PLEASE ENTER THE PATIENT ID TO BE DELETED",width=35,font="Corbel 20 bold underline")
+        label_0.pack()
+
+        frame2 = LabelFrame(main, bd=5, bg="light blue", width=00,padx=0,pady=2)
+        frame2.pack(expand=True)
+
+        label_1 = Label(frame2, text="ID:",bg="white",width=15,font=("Georgia 20 underline"))
+        label_1.pack()
+
+        self.var1 = StringVar()
+        
+        entry_1 = Entry(frame2,bg="white",textvariable=self.var1,width=40)
+        entry_1.pack()
+
+        frame = LabelFrame(main, bd=10, bg="light blue", width=00,padx=0,pady=2)
+        frame.pack(expand='yes')
+
+        Button(frame, text='Submit', font='20', width=15,bg='dark blue',fg='white',command=self.Doc).pack()
+        main.mainloop()
+
+   
+    def Doc(self):
+        q=self.var1.get()
+        qry='select * from PATtest where identity=' + str(q)
+        mycur.execute(qry)
+        data=mycur.fetchone()
+        if data==None:
+            messagebox.showinfo('Error','Invalid ID. Please try again')
+        else:
+            qry='delete from pattest where identity=' + str(q)
+            mycur.execute(qry)
+            mydb.commit()
+            messagebox.showinfo('Success','Record has been successfully deleted!')
+        
+w = Frame1()
